@@ -30,7 +30,7 @@ const ingredientsSlice = createSlice({
 			.addCase(fetchIngredients.pending, (state) => {
 				state.isLoading = true;
 				state.error = '';
-				console.log('loading');
+				console.log('loading ingredients');
 			})
 			.addCase(fetchIngredients.fulfilled, (state, action: PayloadAction<TIngredient[]>) => {
 				state.isLoading = false;
