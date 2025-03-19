@@ -17,7 +17,7 @@ const initialState: IngredientsState = {
 export const fetchIngredients = createAsyncThunk(
 	'ingredients/getAll',
 	async () => {
-		return getIngredientsApi();
+		return await getIngredientsApi();
 	}
 );
 

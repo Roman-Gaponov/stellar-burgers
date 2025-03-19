@@ -11,7 +11,7 @@ interface FeedsState {
 	error: string | undefined;
 }
 
-type TPayload = Pick<FeedsState, 'orders' | 'total' | 'totalToday'>;
+type TFeedsPayload = Pick<FeedsState, 'orders' | 'total' | 'totalToday'>;
 
 const initialState: FeedsState = {
 	orders: [],
@@ -23,7 +23,7 @@ const initialState: FeedsState = {
 };
 
 export const fetchFeeds = createAsyncThunk('feeds/getAll', async () => {
-	return getFeedsApi();
+	return await getFeedsApi();
 });
 
 const feedsSlice = createSlice({
@@ -39,7 +39,7 @@ const feedsSlice = createSlice({
 			})
 			.addCase(
 				fetchFeeds.fulfilled,
-				(state, action: PayloadAction<TPayload>) => {
+				(state, action: PayloadAction<TFeedsPayload>) => {
 					state.isLoading = false;
 					state.orders = action.payload.orders;
 					state.total = action.payload.total;

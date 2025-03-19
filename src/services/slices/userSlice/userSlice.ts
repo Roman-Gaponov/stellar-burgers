@@ -6,6 +6,8 @@ import {
 	orderBurgerApi,
 	registerUserApi,
 	updateUserApi,
+  TLoginData,
+	TRegisterData,
 } from '@api';
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { TOrder, TUser } from '@utils-types';
@@ -20,7 +22,7 @@ interface userState {
 	error?: string | undefined;
 }
 
-// type TPayloadAction = Pick<FeedsState, 'orders' | 'total' | 'totalToday'>;
+type TUserPayload = Pick<userState, 'user' | 'success'>;
 
 const initialState: userState = {
 	user: {
@@ -35,31 +37,34 @@ const initialState: userState = {
 };
 
 export const fetchUser = createAsyncThunk('user/get', async () => {
-	await getUserApi();
+	return await getUserApi();
 });
 
-export const fetchLogin = createAsyncThunk('user/login', async () => {
-	await loginUserApi({ email, password });
+export const fetchRegisterUser = createAsyncThunk('user/register', async (data: TRegisterData) => {
+	return await registerUserApi(data);
 });
 
-export const fetchRegisterUser = createAsyncThunk('user/register', async () => {
-	await registerUserApi();
-});
+export const fetchLogin = createAsyncThunk(
+	'user/login',
+	async (data: TLoginData) => {
+		return await loginUserApi(data);
+	}
+);
 
-export const fetchUpdateUserData = createAsyncThunk('user/update', async () => {
-	await updateUserApi();
+export const fetchUpdateUserData = createAsyncThunk('user/update', async (user: Partial<TRegisterData>) => {
+	return await updateUserApi(user);
 });
 
 export const fetchLogout = createAsyncThunk('user/logout', async () => {
-	await logoutApi();
+	return await logoutApi();
 });
 
 export const fetchUserOrders = createAsyncThunk('user/orders', async () => {
-	await getOrdersApi();
+	return await getOrdersApi();
 });
 
-export const fetchNewUserOrder = createAsyncThunk('user/newOrder', async () => {
-	await orderBurgerApi();
+export const fetchNewUserOrder = createAsyncThunk('user/newOrder', async (data: string[]) => {
+	return await orderBurgerApi(data);
 });
 
 const userSlice = createSlice({
@@ -70,22 +75,33 @@ const userSlice = createSlice({
 		builder
 			.addCase(fetchUser.pending, (state) => {
 				state.isLoading = true;
+				state.success = false;
 				state.error = '';
 				console.log('loading user data');
 			})
-			.addCase(fetchUser.fulfilled, (state, action) => {
-				state.isLoading = false;
-				// state = action.payload;
-				state.error = '';
-				console.log('success');
-			})
+			.addCase(
+				fetchUser.fulfilled,
+				(state, action: PayloadAction<TUserPayload>) => {
+					state.isLoading = false;
+					state.success = action.payload.success;
+					state.user = action.payload.user;
+					state.error = '';
+					console.log('success loading user data');
+				}
+			)
 			.addCase(fetchUser.rejected, (state, action) => {
 				state.isLoading = false;
+				state.success = false;
 				state.error = action.error.message;
-				console.log('error');
+				console.log('error loading user data');
 			});
 	},
-	selectors: {},
+	selectors: {
+    isUserDataLoading: (state) => state.isLoading,
+    userDataSelector: (state) => state.user,
+    userOrdersSelector: (state) => state.orders,
+    userAuthStatusSelector: (state) => state.success,
+  },
 });
 
 export const {} = userSlice.selectors;
