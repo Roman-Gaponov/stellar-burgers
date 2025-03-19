@@ -1,16 +1,10 @@
-import {
-	createSelector,
-	createSlice,
-	isAction,
-	nanoid,
-	PayloadAction,
-} from '@reduxjs/toolkit';
+import { createSlice, nanoid, PayloadAction } from '@reduxjs/toolkit';
 import { TConstructorIngredient, TIngredient } from '@utils-types';
 import { Interface } from 'readline';
 
 interface BurgerConstructorState {
 	constructorBun: TConstructorIngredient | null;
-	constructorIngredients: TIngredient[];
+	constructorIngredients: TConstructorIngredient[];
 }
 
 const initialState: BurgerConstructorState = {
@@ -35,12 +29,24 @@ const burgerConstructorSlice = createSlice({
 				}
 			},
 		},
+		removeIngredient: (state, action: PayloadAction<string>) => {
+			state.constructorIngredients = state.constructorIngredients.filter(
+				(item) => item.id !== action.payload
+			);
+		},
+		resetConstructor: (state) => {
+			state.constructorBun = null;
+			state.constructorIngredients = [];
+		},
 	},
 	selectors: {
 		constructorBunSelector: (state) => state.constructorBun,
 		costructorIngredientsSelector: (state) => state.constructorIngredients,
 	},
 });
+
+export const { addIngredient, removeIngredient, resetConstructor } =
+	burgerConstructorSlice.actions;
 
 export const { constructorBunSelector, costructorIngredientsSelector } =
 	burgerConstructorSlice.selectors;
