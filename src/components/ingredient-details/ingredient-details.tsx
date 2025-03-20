@@ -13,9 +13,9 @@ export const IngredientDetails: FC = () => {
 	const ingredientsData = useSelector(ingredientsDataSelector);
 
 	/** TODO: взять переменную из стора */
-	const ingredientData: TIngredient | undefined = ingredientsData.find((ingredient) => {
-		ingredient._id === ingredientIndex;
-	});
+	const ingredientData: TIngredient = ingredientsData.find(
+		(ingredient) => ingredient._id === ingredientIndex
+	)!;
 
 	if (!ingredientData) {
 		return <Preloader />;

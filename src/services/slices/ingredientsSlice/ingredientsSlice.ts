@@ -16,9 +16,7 @@ const initialState: IngredientsState = {
 
 export const fetchIngredients = createAsyncThunk(
 	'ingredients/getAll',
-	async () => {
-		return await getIngredientsApi();
-	}
+	async () => await getIngredientsApi()
 );
 
 const ingredientsSlice = createSlice({
@@ -32,12 +30,15 @@ const ingredientsSlice = createSlice({
 				state.error = '';
 				console.log('loading ingredients');
 			})
-			.addCase(fetchIngredients.fulfilled, (state, action: PayloadAction<TIngredient[]>) => {
-				state.isLoading = false;
-				state.ingredients = action.payload;
-				state.error = '';
-				console.log('success loading ingredients');
-			})
+			.addCase(
+				fetchIngredients.fulfilled,
+				(state, action: PayloadAction<TIngredient[]>) => {
+					state.isLoading = false;
+					state.ingredients = action.payload;
+					state.error = '';
+					console.log('success loading ingredients');
+				}
+			)
 			.addCase(fetchIngredients.rejected, (state, action) => {
 				state.isLoading = false;
 				state.error = action.error.message;

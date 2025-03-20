@@ -92,7 +92,7 @@ const App = () => {
 						</ProtectedRoute>
 					}
 				/>
-        
+
 				<Route
 					path='/profile/orders'
 					element={
@@ -106,7 +106,7 @@ const App = () => {
 					path='/profile/orders/:number'
 					element={
 						<ProtectedRoute>
-							<Modal title='' onClose={() => () => navigate('/profile/orders')}>
+							<Modal title='' onClose={() => navigate('/profile/orders')}>
 								<OrderInfo />
 							</Modal>
 						</ProtectedRoute>
@@ -125,9 +125,7 @@ const App = () => {
 				<Route
 					path='/ingredients/:id'
 					element={
-						<Modal
-							title='Детали ингредиента'
-							onClose={() => () => navigate('/')}>
+						<Modal title='Детали ингредиента' onClose={() => navigate('/')}>
 							<IngredientDetails />
 						</Modal>
 					}
@@ -142,9 +140,7 @@ const App = () => {
 						path='/profile/orders/:number'
 						element={
 							<ProtectedRoute>
-								<Modal
-									title=''
-									onClose={() => () => navigate('/profile/orders')}>
+								<Modal title='' onClose={() => navigate('/profile/orders')}>
 									<OrderInfo />
 								</Modal>
 							</ProtectedRoute>
@@ -163,9 +159,7 @@ const App = () => {
 					<Route
 						path='/ingredients/:id'
 						element={
-							<Modal
-								title='Детали ингредиента'
-								onClose={() => () => navigate('/')}>
+							<Modal title='Детали ингредиента' onClose={() => navigate('/')}>
 								<IngredientDetails />
 							</Modal>
 						}

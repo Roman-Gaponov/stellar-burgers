@@ -14,7 +14,7 @@ import {
 	lastOrderSelector,
 	orderRequestStatusSelector,
 	setLastOrder,
-	userAuthStatusSelector,
+	isUserAuthSelector,
 } from '../../services/slices/userSlice/userSlice';
 import { useNavigate } from 'react-router-dom';
 import { fetchFeeds } from '../../services/slices/feedsSlice/feedsSlice';
@@ -29,7 +29,7 @@ export const BurgerConstructor: FC = () => {
 		ingredients: constructorIngredients,
 	};
 
-	const isAuth = useSelector(userAuthStatusSelector);
+	const isAuth = useSelector(isUserAuthSelector);
 
 	const orderRequest = useSelector(orderRequestStatusSelector);
 

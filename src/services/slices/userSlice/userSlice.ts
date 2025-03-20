@@ -41,57 +41,52 @@ const initialState: userState = {
 	success: false,
 };
 
-export const fetchUser = createAsyncThunk('user/get', async () => {
-	return await getUserApi();
-});
+export const fetchUser = createAsyncThunk(
+	'user/get',
+	async () => await getUserApi()
+);
 
 export const fetchRegisterUser = createAsyncThunk(
 	'user/register',
-	async (data: TRegisterData) => {
-		return await registerUserApi(data);
-	}
+	async (data: TRegisterData) => await registerUserApi(data)
 );
 
 export const fetchLogin = createAsyncThunk(
 	'user/login',
-	async (data: TLoginData) => {
-		return await loginUserApi(data);
-	}
+	async (data: TLoginData) => await loginUserApi(data)
 );
 
 export const fetchUpdateUserData = createAsyncThunk(
 	'user/update',
-	async (user: Partial<TRegisterData>) => {
-		return await updateUserApi(user);
-	}
+	async (user: Partial<TRegisterData>) => await updateUserApi(user)
 );
 
-export const fetchLogout = createAsyncThunk('user/logout', async () => {
-	return await logoutApi();
-});
+export const fetchLogout = createAsyncThunk(
+	'user/logout',
+	async () => await logoutApi()
+);
 
-export const fetchUserOrders = createAsyncThunk('user/orders', async () => {
-	return await getOrdersApi();
-});
+export const fetchUserOrders = createAsyncThunk(
+	'user/orders',
+	async () => await getOrdersApi()
+);
 
 export const fetchOrderBurger = createAsyncThunk(
 	'user/newOrder',
-	async (data: string[]) => {
-		return await orderBurgerApi(data);
-	}
+	async (data: string[]) => await orderBurgerApi(data)
 );
 
 const userSlice = createSlice({
 	name: 'user',
 	initialState,
 	reducers: {
-    setUserSuccess: (state, action: PayloadAction<boolean>) => {
-      state.success = action.payload;
-    },
-    setLastOrder: (state, action: PayloadAction<TOrder | null>) => {
-      state.lastOrder = action.payload;
-    },
-  },
+		setUserSuccess: (state, action: PayloadAction<boolean>) => {
+			state.success = action.payload;
+		},
+		setLastOrder: (state, action: PayloadAction<TOrder | null>) => {
+			state.lastOrder = action.payload;
+		},
+	},
 	extraReducers: (builder) => {
 		builder
 			// обработка санка fetchUser
@@ -253,9 +248,9 @@ const userSlice = createSlice({
 	},
 	selectors: {
 		isUserDataLoadingSelector: (state) => state.isLoading,
+		isUserAuthSelector: (state) => state.success,
 		userDataSelector: (state) => state.user,
 		userOrdersSelector: (state) => state.orders,
-		isUserAuthSelector: (state) => state.success,
 		orderRequestStatusSelector: (state) => state.orderRequestStatus,
 		lastOrderSelector: (state) => state.lastOrder,
 	},
@@ -265,9 +260,9 @@ export const { setUserSuccess, setLastOrder } = userSlice.actions;
 
 export const {
 	isUserDataLoadingSelector,
+	isUserAuthSelector,
 	userDataSelector,
 	userOrdersSelector,
-	isUserAuthSelector,
 	orderRequestStatusSelector,
 	lastOrderSelector,
 } = userSlice.selectors;
