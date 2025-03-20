@@ -101,6 +101,8 @@ export const {
 	ordersDataSelector,
 	totalOrdersSelector,
 	totalTodayOrdersSelector,
+	orderByNumberSelector,
+	isSuccessOrderByNumberSelector,
 } = feedsSlice.selectors;
 
 export default feedsSlice.reducer;
