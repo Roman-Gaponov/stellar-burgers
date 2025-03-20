@@ -85,10 +85,10 @@ const userSlice = createSlice({
 	name: 'user',
 	initialState,
 	reducers: {
-    setUseSuccess: (state, action: PayloadAction<boolean>) => {
+    setUserSuccess: (state, action: PayloadAction<boolean>) => {
       state.success = action.payload;
     },
-    setLastOrder: (state, action: PayloadAction<TOrder>) => {
+    setLastOrder: (state, action: PayloadAction<TOrder | null>) => {
       state.lastOrder = action.payload;
     },
   },
@@ -260,6 +260,8 @@ const userSlice = createSlice({
 		lastOrderSelector: (state) => state.lastOrder,
 	},
 });
+
+export const { setUserSuccess, setLastOrder } = userSlice.actions;
 
 export const {
 	isUserDataLoading,
