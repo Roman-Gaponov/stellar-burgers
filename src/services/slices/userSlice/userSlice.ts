@@ -252,10 +252,10 @@ const userSlice = createSlice({
 			});
 	},
 	selectors: {
-		isUserDataLoading: (state) => state.isLoading,
+		isUserDataLoadingSelector: (state) => state.isLoading,
 		userDataSelector: (state) => state.user,
 		userOrdersSelector: (state) => state.orders,
-		userAuthStatusSelector: (state) => state.success,
+		isUserAuthSelector: (state) => state.success,
 		orderRequestStatusSelector: (state) => state.orderRequestStatus,
 		lastOrderSelector: (state) => state.lastOrder,
 	},
@@ -264,10 +264,10 @@ const userSlice = createSlice({
 export const { setUserSuccess, setLastOrder } = userSlice.actions;
 
 export const {
-	isUserDataLoading,
+	isUserDataLoadingSelector,
 	userDataSelector,
 	userOrdersSelector,
-	userAuthStatusSelector,
+	isUserAuthSelector,
 	orderRequestStatusSelector,
 	lastOrderSelector,
 } = userSlice.selectors;
