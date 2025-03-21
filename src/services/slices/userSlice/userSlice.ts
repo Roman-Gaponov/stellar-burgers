@@ -41,39 +41,27 @@ const initialState: userState = {
 	success: false,
 };
 
-export const fetchUser = createAsyncThunk(
-	'user/get',
-	async () => await getUserApi()
-);
+export const fetchUser = createAsyncThunk('user/get', getUserApi);
 
 export const fetchRegisterUser = createAsyncThunk(
 	'user/register',
-	async (data: TRegisterData) => await registerUserApi(data)
+	registerUserApi
 );
 
-export const fetchLogin = createAsyncThunk(
-	'user/login',
-	async (data: TLoginData) => await loginUserApi(data)
-);
+export const fetchLogin = createAsyncThunk('user/login', loginUserApi);
 
 export const fetchUpdateUserData = createAsyncThunk(
 	'user/update',
-	async (user: Partial<TRegisterData>) => await updateUserApi(user)
+	updateUserApi
 );
 
-export const fetchLogout = createAsyncThunk(
-	'user/logout',
-	async () => await logoutApi()
-);
+export const fetchLogout = createAsyncThunk('user/logout', logoutApi);
 
-export const fetchUserOrders = createAsyncThunk(
-	'user/orders',
-	async () => await getOrdersApi()
-);
+export const fetchUserOrders = createAsyncThunk('user/orders', getOrdersApi);
 
 export const fetchOrderBurger = createAsyncThunk(
 	'user/newOrder',
-	async (data: string[]) => await orderBurgerApi(data)
+	orderBurgerApi
 );
 
 const userSlice = createSlice({

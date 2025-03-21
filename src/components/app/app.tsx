@@ -33,11 +33,10 @@ const App = () => {
 	const navigate = useNavigate();
 
 	const dispatch = useDispatch();
+
 	useEffect(() => {
 		dispatch(fetchIngredients());
-		dispatch(fetchFeeds());
-		dispatch(fetchUser);
-		dispatch(fetchUserOrders);
+		dispatch(fetchUser());
 	});
 
 	return (
@@ -106,30 +105,14 @@ const App = () => {
 					path='/profile/orders/:number'
 					element={
 						<ProtectedRoute>
-							<Modal title='' onClose={() => navigate('/profile/orders')}>
-								<OrderInfo />
-							</Modal>
+							<OrderInfo />
 						</ProtectedRoute>
 					}
 				/>
 
-				<Route
-					path='/feed/:number'
-					element={
-						<Modal title='Детали заказа' onClose={() => navigate('/feed')}>
-							<OrderInfo />
-						</Modal>
-					}
-				/>
+				<Route path='/feed/:number' element={<OrderInfo />} />
 
-				<Route
-					path='/ingredients/:id'
-					element={
-						<Modal title='Детали ингредиента' onClose={() => navigate('/')}>
-							<IngredientDetails />
-						</Modal>
-					}
-				/>
+				<Route path='/ingredients/:id' element={<IngredientDetails />} />
 
 				<Route path='*' element={<NotFound404 />} />
 			</Routes>
@@ -140,7 +123,9 @@ const App = () => {
 						path='/profile/orders/:number'
 						element={
 							<ProtectedRoute>
-								<Modal title='' onClose={() => navigate('/profile/orders')}>
+								<Modal
+									title='Детали заказов'
+									onClose={() => navigate('/profile/orders')}>
 									<OrderInfo />
 								</Modal>
 							</ProtectedRoute>
