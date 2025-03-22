@@ -19,12 +19,8 @@ import styles from './app.module.css';
 
 import { AppHeader, IngredientDetails, OrderInfo, Modal } from '@components';
 import { fetchIngredients } from '../../services/slices/ingredientsSlice/ingredientsSlice';
-import { fetchFeeds } from '../../services/slices/feedsSlice/feedsSlice';
 import { ProtectedRoute } from '../protectedRoute/protected-route';
-import {
-	fetchUser,
-	fetchUserOrders,
-} from '../../services/slices/userSlice/userSlice';
+import { fetchUser } from '../../services/slices/userSlice/userSlice';
 
 const App = () => {
 	const location = useLocation();
@@ -32,12 +28,16 @@ const App = () => {
 
 	const navigate = useNavigate();
 
+	const closeModal = () => {
+		navigate(backgroundLocation || '/');
+	};
+
 	const dispatch = useDispatch();
 
 	useEffect(() => {
 		dispatch(fetchIngredients());
 		dispatch(fetchUser());
-	});
+	}, [dispatch]);
 
 	return (
 		<div className={styles.app}>
@@ -123,9 +123,7 @@ const App = () => {
 						path='/profile/orders/:number'
 						element={
 							<ProtectedRoute>
-								<Modal
-									title='Детали заказов'
-									onClose={() => navigate('/profile/orders')}>
+								<Modal title='Детали заказов' onClose={closeModal}>
 									<OrderInfo />
 								</Modal>
 							</ProtectedRoute>
@@ -135,7 +133,7 @@ const App = () => {
 					<Route
 						path='/feed/:number'
 						element={
-							<Modal title='Детали заказа' onClose={() => navigate('/feed')}>
+							<Modal title='Детали заказа' onClose={closeModal}>
 								<OrderInfo />
 							</Modal>
 						}
@@ -144,7 +142,7 @@ const App = () => {
 					<Route
 						path='/ingredients/:id'
 						element={
-							<Modal title='Детали ингредиента' onClose={() => navigate('/')}>
+							<Modal title='Детали ингредиента' onClose={closeModal}>
 								<IngredientDetails />
 							</Modal>
 						}

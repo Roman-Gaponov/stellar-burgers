@@ -1,13 +1,9 @@
 import {
-	getOrdersApi,
 	getUserApi,
 	loginUserApi,
 	logoutApi,
-	orderBurgerApi,
 	registerUserApi,
 	updateUserApi,
-	TLoginData,
-	TRegisterData,
 } from '@api';
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { TOrder, TUser } from '@utils-types';
@@ -23,11 +19,6 @@ interface userState {
 }
 
 type TUserPayload = Pick<userState, 'user' | 'success'>;
-
-type TOrderBurgerPayload = {
-	name: string;
-	order: TOrder;
-};
 
 const initialState: userState = {
 	user: {
@@ -57,22 +48,12 @@ export const fetchUpdateUserData = createAsyncThunk(
 
 export const fetchLogout = createAsyncThunk('user/logout', logoutApi);
 
-export const fetchUserOrders = createAsyncThunk('user/orders', getOrdersApi);
-
-export const fetchOrderBurger = createAsyncThunk(
-	'user/newOrder',
-	orderBurgerApi
-);
-
 const userSlice = createSlice({
 	name: 'user',
 	initialState,
 	reducers: {
 		setUserSuccess: (state, action: PayloadAction<boolean>) => {
 			state.success = action.payload;
-		},
-		setLastOrder: (state, action: PayloadAction<TOrder | null>) => {
-			state.lastOrder = action.payload;
 		},
 	},
 	extraReducers: (builder) => {
@@ -188,71 +169,21 @@ const userSlice = createSlice({
 				state.success = false;
 				state.error = action.error.message;
 				console.log('error logout user');
-			})
-			// обработка санка fetchUserOrders
-			.addCase(fetchUserOrders.pending, (state) => {
-				state.isLoading = true;
-				state.error = '';
-				console.log('loading user orders');
-			})
-			.addCase(
-				fetchUserOrders.fulfilled,
-				(state, action: PayloadAction<TOrder[]>) => {
-					state.isLoading = false;
-					state.orders = action.payload;
-					state.error = '';
-					console.log('success loading user orders');
-				}
-			)
-			.addCase(fetchUserOrders.rejected, (state, action) => {
-				state.isLoading = false;
-				state.error = action.error.message;
-				console.log('error loading user orders');
-			})
-			// обработка санка fetchOrderBurger
-			.addCase(fetchOrderBurger.pending, (state) => {
-				state.isLoading = true;
-				state.orderRequestStatus = true;
-				state.error = '';
-				console.log('processing order burger');
-			})
-			.addCase(
-				fetchOrderBurger.fulfilled,
-				(state, action: PayloadAction<TOrderBurgerPayload>) => {
-					state.isLoading = false;
-					state.orderRequestStatus = false;
-					state.orders.push(action.payload.order);
-					state.lastOrder = action.payload.order;
-					state.error = '';
-					console.log('success order burger');
-				}
-			)
-			.addCase(fetchOrderBurger.rejected, (state, action) => {
-				state.isLoading = false;
-				state.orderRequestStatus = false;
-				state.error = action.error.message;
-				console.log('error order burger');
 			});
 	},
 	selectors: {
 		isUserDataLoadingSelector: (state) => state.isLoading,
 		isUserAuthSelector: (state) => state.success,
 		userDataSelector: (state) => state.user,
-		userOrdersSelector: (state) => state.orders,
-		orderRequestStatusSelector: (state) => state.orderRequestStatus,
-		lastOrderSelector: (state) => state.lastOrder,
 	},
 });
 
-export const { setUserSuccess, setLastOrder } = userSlice.actions;
+export const { setUserSuccess } = userSlice.actions;
 
 export const {
 	isUserDataLoadingSelector,
 	isUserAuthSelector,
 	userDataSelector,
-	userOrdersSelector,
-	orderRequestStatusSelector,
-	lastOrderSelector,
 } = userSlice.selectors;
 
 export default userSlice.reducer;

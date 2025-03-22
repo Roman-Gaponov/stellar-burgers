@@ -4,11 +4,13 @@ import { OrderInfoUI } from '../ui/order-info';
 import { TIngredient } from '@utils-types';
 import { useDispatch, useSelector } from '../../services/store';
 import { useParams } from 'react-router-dom';
+
 import {
 	fetchOrderByNumber,
 	isSuccessOrderByNumberSelector,
 	orderByNumberSelector,
-} from '../../services/slices/feedsSlice/feedsSlice';
+} from '../../services/slices/ordersSlice/ordersSlice';
+
 import { ingredientsDataSelector } from '../../services/slices/ingredientsSlice/ingredientsSlice';
 
 export const OrderInfo: FC = () => {
@@ -26,7 +28,7 @@ export const OrderInfo: FC = () => {
 
 	useEffect(() => {
 		dispatch(fetchOrderByNumber(number));
-	}, [dispatch]);
+	}, [dispatch, number]);
 
 	/* Готовим данные для отображения */
 	const orderInfo = useMemo(() => {

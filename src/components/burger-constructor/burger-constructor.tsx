@@ -9,15 +9,17 @@ import {
 	resetConstructor,
 } from '../../services/slices/burgerConstructorSlice/burgerConstructorSlice';
 
+import { isUserAuthSelector } from '../../services/slices/userSlice/userSlice';
+
 import {
 	fetchOrderBurger,
 	lastOrderSelector,
 	orderRequestStatusSelector,
 	setLastOrder,
-	isUserAuthSelector,
-} from '../../services/slices/userSlice/userSlice';
+} from '../../services/slices/ordersSlice/ordersSlice';
+
 import { useNavigate } from 'react-router-dom';
-import { fetchFeeds } from '../../services/slices/feedsSlice/feedsSlice';
+import { fetchFeed } from '../../services/slices/feedSlice/feedSlice';
 
 export const BurgerConstructor: FC = () => {
 	/** TODO: взять переменные constructorItems, orderRequest и orderModalData из стора */
@@ -52,7 +54,7 @@ export const BurgerConstructor: FC = () => {
 
 		dispatch(fetchOrderBurger(ingredientsId));
 		dispatch(resetConstructor());
-		dispatch(fetchFeeds());
+		dispatch(fetchFeed());
 	};
 
 	const closeOrderModal = () => {
