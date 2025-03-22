@@ -1,6 +1,6 @@
 import { ProfileUI } from '@ui-pages';
 import { FC, SyntheticEvent, useEffect, useState } from 'react';
-import { useDispatch, useSelector } from '../../services/store';
+import { useDispatch, useSelector } from '../../services/store/store';
 import {
 	fetchUpdateUserData,
 	userDataSelector,

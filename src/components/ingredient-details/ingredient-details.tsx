@@ -3,7 +3,7 @@ import { Preloader } from '../ui/preloader';
 import { IngredientDetailsUI } from '../ui/ingredient-details';
 import { TIngredient } from '@utils-types';
 import { useLocation } from 'react-router-dom';
-import { useSelector } from '../../services/store';
+import { useSelector } from '../../services/store/store';
 import { ingredientsDataSelector } from '../../services/slices/ingredientsSlice/ingredientsSlice';
 
 export const IngredientDetails: FC = () => {

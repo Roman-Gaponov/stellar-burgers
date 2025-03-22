@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSelector } from '../../services/store';
+import { useSelector } from '../../services/store/store';
 import {
 	isUserAuthSelector,
 	isUserDataLoadingSelector,
