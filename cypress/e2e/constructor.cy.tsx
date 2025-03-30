@@ -1,12 +1,48 @@
+declare namespace Cypress {
+	interface Chainable {
+		addBun(): void;
+		addMainIngredient(): void;
+		addSauce(): void;
+		closeModal(): void;
+	}
+}
+
 const testUrl = 'http://localhost:4000';
+
+const modalTitle = 'Детали ингредиента';
+
+const orderNumber = '777';
+
+const bunIngredientName = 'ингредиент 1';
+const mainIngredientName = 'ингредиент 2';
+const sauceIngredientName = 'ингредиент 4';
+
+const topBunSelector = '[data-cy=top-bun-in-constructor]';
+const bottomBunSelector = '[data-cy=bottom-bun-in-constructor]';
+const burgerIngredientsSelector = '[data-cy=ingedients-in-constructor]';
+const burgerConstrucorSelector = '[data-cy=burger-constructor]';
 
 describe('тесты сборки бургера и оформления заказа', () => {
 	beforeEach(() => {
-		cy.intercept('GET', 'api/ingreients', { fixture: 'ingredients.json' });
-		cy.intercept('GET', 'api/auth/user', { fixture: 'user.json' });
-		cy.intercept('POST', 'api/orders', { fixture: 'order.json' });
-
 		cy.viewport(1300, 800);
+
+		cy.intercept('GET', '/api/ingredients', { fixture: 'ingredients.json' }).as(
+			'getIngredientsResponse'
+		);
+		cy.intercept('GET', '/api/auth/user', { fixture: 'user.json' }).as(
+			'getUserResponse'
+		);
+		cy.intercept('POST', '/api/orders', { fixture: 'order.json' }).as(
+			'getOrderResponse'
+		);
+
+		cy.visit(testUrl);
+
+		cy.wait('@getIngredientsResponse')
+			.its('response.statusCode')
+			.should('eq', 200);
+
+		cy.wait('@getUserResponse').its('response.statusCode').should('eq', 200);
 	});
 
 	Cypress.Commands.add('addBun', () => {
@@ -26,67 +62,55 @@ describe('тесты сборки бургера и оформления зак�
 	});
 
 	describe('проверка добавления ингредиента и булки в бургер', () => {
-		beforeEach(() => {
-			cy.visit(testUrl);
-		});
-
 		it('тест добавления булки', () => {
 			cy.addBun();
 
-			cy.get('[data-cy=top-bun-in-constructor]')
-				.contains('ингредиент 1')
-				.should('exist');
-			cy.get('[data-cy=bottom-bun-in-constructor]')
-				.contains('ингредиент 1')
-				.should('exist');
+			cy.get(topBunSelector).contains(bunIngredientName).should('exist');
+			cy.get(bottomBunSelector).contains(bunIngredientName).should('exist');
 		});
 
 		it('тест добавления ингредиентов', () => {
 			cy.addMainIngredient();
 			cy.addSauce();
 
-			cy.get('[data-cy=ingedients-in-constructor]')
-				.contains('ингредиент 2')
+			cy.get(burgerIngredientsSelector)
+				.contains(mainIngredientName)
 				.should('exist');
-			cy.get('[data-cy=ingedients-in-constructor]')
-				.contains('ингредиент 4')
+			cy.get(burgerIngredientsSelector)
+				.contains(sauceIngredientName)
 				.should('exist');
 		});
 	});
 
 	describe('проверка функциональности модального окна', () => {
-		beforeEach(() => {
-			cy.visit(testUrl);
-		});
-
 		it('Открытие модального окна', () => {
-			cy.get('div').contains('Детали ингредиента').should('not.exist');
-			cy.get('div').contains('ингредиент 2').click();
-			cy.get('div').contains('Детали ингредиента').should('exist');
+			cy.get('div').contains(modalTitle).should('not.exist');
+			cy.get('div').contains(mainIngredientName).click();
+			cy.get('div').contains(modalTitle).should('exist');
 
-			cy.get('div').contains('ингредиент 2').should('exist');
+			cy.get('div').contains(mainIngredientName).should('exist');
 		});
 
 		describe('Закрытие модального окна', () => {
 			beforeEach(() => {
-				cy.get('div').contains('ingredient').click();
-				cy.get('div').contains('Детали ингредиента').should('exist');
+				cy.get('div').contains(mainIngredientName).click();
+				cy.get('div').contains(modalTitle).should('exist');
 			});
 
 			it('Модальное окно закрывается при клике на крестик', () => {
 				cy.closeModal();
-				cy.get('div').contains('Детали ингредиента').should('not.exist');
+				cy.get('div').contains(modalTitle).should('not.exist');
 			});
 
 			it('Модальное окно остается открытым при клике внутри него', () => {
-				cy.get('div').contains('Детали ингредиента').click();
-				cy.get('div').contains('Детали ингредиента').should('exist');
+				cy.get('div').contains(modalTitle).click();
+				cy.get('div').contains(modalTitle).should('exist');
 			});
 
 			it('Модальное окно закрывается при клике на оверлей', () => {
 				cy.get('[data-cy=modal]').invoke('hide');
 				cy.get('[data-cy=modal-overlay]').should('be.visible').click();
-				cy.get('div').contains('Детали ингредиента').should('not.exist');
+				cy.get('div').contains(modalTitle).should('not.exist');
 			});
 		});
 	});
@@ -98,8 +122,6 @@ describe('тесты сборки бургера и оформления зак�
 				JSON.stringify('mockRefreshToken')
 			);
 			cy.setCookie('accessToken', 'mockAccessToken');
-
-			cy.visit(testUrl);
 		});
 
 		afterEach(() => {
@@ -116,29 +138,25 @@ describe('тесты сборки бургера и оформления зак�
 			cy.addMainIngredient();
 			cy.addSauce();
 
-			cy.get('[data-cy=top-bun-in-constructor]')
-				.contains('ингредиент 1')
+			cy.get(topBunSelector).contains(bunIngredientName).should('exist');
+			cy.get(bottomBunSelector).contains(bunIngredientName).should('exist');
+			cy.get(burgerIngredientsSelector)
+				.contains(mainIngredientName)
 				.should('exist');
-			cy.get('[data-cy=bottom-bun-in-constructor]')
-				.contains('ингредиент 1')
-				.should('exist');
-			cy.get('[data-cy=ingedients-in-constructor]')
-				.contains('ингредиент 2')
-				.should('exist');
-			cy.get('[data-cy=ingedients-in-constructor]')
-				.contains('ингредиент 4')
+			cy.get(burgerIngredientsSelector)
+				.contains(sauceIngredientName)
 				.should('exist');
 
 			cy.get('[data-cy=order-button]').contains('Оформить заказ').click();
-			cy.get('[data-cy=order-number]').contains('777').should('exist');
+			cy.get('[data-cy=order-number]').contains(orderNumber).should('exist');
 
 			cy.closeModal();
-			cy.get('div').contains('777').should('not.exist');
+			cy.get('div').contains(orderNumber).should('not.exist');
 
-			cy.get('[data-cy=burger-constructor]')
+			cy.get(burgerConstrucorSelector)
 				.contains('Выберите булки')
 				.should('exist');
-			cy.get('[data-cy=burger-constructor]')
+			cy.get(burgerConstrucorSelector)
 				.contains('Выберите начинку')
 				.should('exist');
 		});
