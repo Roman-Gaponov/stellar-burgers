@@ -4,7 +4,7 @@ import {
 	logoutApi,
 	registerUserApi,
 	updateUserApi,
-} from '@api';
+} from '../../../utils/burger-api';
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { TOrder, TUser } from '@utils-types';
 
