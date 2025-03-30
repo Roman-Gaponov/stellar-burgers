@@ -6,13 +6,10 @@ import {
 	updateUserApi,
 } from '../../../utils/burger-api';
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { TOrder, TUser } from '@utils-types';
+import { TUser } from '@utils-types';
 
 interface userState {
 	user: TUser;
-	orders: TOrder[];
-	lastOrder: TOrder | null;
-	orderRequestStatus: boolean;
 	isLoading: boolean;
 	success: boolean;
 	error?: string | undefined;
@@ -20,14 +17,11 @@ interface userState {
 
 type TUserPayload = Pick<userState, 'user' | 'success'>;
 
-const initialState: userState = {
+export const initialState: userState = {
 	user: {
 		name: '',
 		email: '',
 	},
-	orders: [],
-	lastOrder: null,
-	orderRequestStatus: false,
 	isLoading: false,
 	success: false,
 };

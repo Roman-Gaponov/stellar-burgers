@@ -11,7 +11,7 @@ interface FeedState {
 
 type TFeedPayload = TOrdersData & { success: boolean };
 
-const initialState: FeedState = {
+export const initialState: FeedState = {
 	feed: {
 		orders: [],
 		total: 0,
@@ -40,15 +40,18 @@ const feedSlice = createSlice({
 				fetchFeed.fulfilled,
 				(state, action: PayloadAction<TFeedPayload>) => {
 					state.isLoading = false;
+					state.success = true;
 					state.feed.orders = action.payload.orders;
 					state.feed.total = action.payload.total;
 					state.feed.totalToday = action.payload.totalToday;
 					state.error = '';
 					console.log('success loading feed');
+					console.log(action.payload);
 				}
 			)
 			.addCase(fetchFeed.rejected, (state, action) => {
 				state.isLoading = false;
+        state.success = false;
 				state.error = action.error.message;
 				console.log('error loading feed');
 			});

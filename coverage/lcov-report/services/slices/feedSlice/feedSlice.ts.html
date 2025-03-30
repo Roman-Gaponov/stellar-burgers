@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">80.3% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>53/66</span>
+                <span class='fraction'>69/69</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>1/1</span>
+                <span class='fraction'>4/4</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">80.3% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>53/66</span>
+                <span class='fraction'>69/69</span>
             </div>
         
             
@@ -129,7 +129,10 @@
 <a name='L64'></a><a href='#L64'>64</a>
 <a name='L65'></a><a href='#L65'>65</a>
 <a name='L66'></a><a href='#L66'>66</a>
-<a name='L67'></a><a href='#L67'>67</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L67'></a><a href='#L67'>67</a>
+<a name='L68'></a><a href='#L68'>68</a>
+<a name='L69'></a><a href='#L69'>69</a>
+<a name='L70'></a><a href='#L70'>70</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -163,25 +166,28 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -208,7 +214,7 @@ interface FeedState {
 &nbsp;
 type TFeedPayload = TOrdersData &amp; { success: boolean };
 &nbsp;
-const initialState: FeedState = {
+export const initialState: FeedState = {
 	feed: {
 		orders: [],
 		total: 0,
@@ -229,25 +235,28 @@ const feedSlice = createSlice({
 		builder
 			// обработка fetchFeed
 			.addCase(fetchFeed.pending, (state) =&gt; {
-<span class="cstat-no" title="statement not covered" >				state.isLoading = true;</span>
-<span class="cstat-no" title="statement not covered" >				state.error = '';</span>
-<span class="cstat-no" title="statement not covered" >				console.log('loading feed');</span>
+				state.isLoading = true;
+				state.error = '';
+				console.log('loading feed');
 			})
 			.addCase(
 				fetchFeed.fulfilled,
 				(state, action: PayloadAction&lt;TFeedPayload&gt;) =&gt; {
-<span class="cstat-no" title="statement not covered" >					state.isLoading = false;</span>
-<span class="cstat-no" title="statement not covered" >					state.feed.orders = action.payload.orders;</span>
-<span class="cstat-no" title="statement not covered" >					state.feed.total = action.payload.total;</span>
-<span class="cstat-no" title="statement not covered" >					state.feed.totalToday = action.payload.totalToday;</span>
-<span class="cstat-no" title="statement not covered" >					state.error = '';</span>
-<span class="cstat-no" title="statement not covered" >					console.log('success loading feed');</span>
-<span class="cstat-no" title="statement not covered" >				}</span>
+					state.isLoading = false;
+					state.success = true;
+					state.feed.orders = action.payload.orders;
+					state.feed.total = action.payload.total;
+					state.feed.totalToday = action.payload.totalToday;
+					state.error = '';
+					console.log('success loading feed');
+					console.log(action.payload);
+				}
 			)
 			.addCase(fetchFeed.rejected, (state, action) =&gt; {
-<span class="cstat-no" title="statement not covered" >				state.isLoading = false;</span>
-<span class="cstat-no" title="statement not covered" >				state.error = action.error.message;</span>
-<span class="cstat-no" title="statement not covered" >				console.log('error loading feed');</span>
+				state.isLoading = false;
+        state.success = false;
+				state.error = action.error.message;
+				console.log('error loading feed');
 			});
 	},
 	selectors: {
@@ -268,7 +277,7 @@ export default feedSlice.reducer;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-03-30T12:53:24.479Z
+                at 2025-03-30T16:10:23.881Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>
