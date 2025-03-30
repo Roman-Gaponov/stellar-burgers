@@ -1,4 +1,8 @@
-import { getOrdersApi, orderBurgerApi, getOrderByNumberApi } from '../../../utils/burger-api';
+import {
+	getOrdersApi,
+	orderBurgerApi,
+	getOrderByNumberApi,
+} from '../../../utils/burger-api';
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { TOrder } from '@utils-types';
 
@@ -21,7 +25,7 @@ type TOrderBurgerPayload = {
 
 type TOrderByNumberPayload = Pick<OrdersState, 'orders'> & { success: boolean };
 
-const initialState: OrdersState = {
+export const initialState: OrdersState = {
 	orders: [],
 	lastOrder: null,
 	orderByNumber: null,
@@ -60,6 +64,7 @@ const ordersSlice = createSlice({
 			// обработка санка fetchOrders
 			.addCase(fetchOrders.pending, (state) => {
 				state.isLoading = true;
+				state.success = false;
 				state.error = '';
 				console.log('loading user orders');
 			})
@@ -67,6 +72,7 @@ const ordersSlice = createSlice({
 				fetchOrders.fulfilled,
 				(state, action: PayloadAction<TOrder[]>) => {
 					state.isLoading = false;
+					state.success = true;
 					state.orders = action.payload;
 					state.error = '';
 					console.log('success loading user orders');
@@ -74,12 +80,14 @@ const ordersSlice = createSlice({
 			)
 			.addCase(fetchOrders.rejected, (state, action) => {
 				state.isLoading = false;
+				state.success = false;
 				state.error = action.error.message;
 				console.log('error loading user orders');
 			})
 			// обработка санка fetchOrderBurger
 			.addCase(fetchOrderBurger.pending, (state) => {
 				state.isLoading = true;
+				state.success = false;
 				state.orderRequestStatus = true;
 				state.error = '';
 				console.log('processing order burger');
@@ -88,6 +96,7 @@ const ordersSlice = createSlice({
 				fetchOrderBurger.fulfilled,
 				(state, action: PayloadAction<TOrderBurgerPayload>) => {
 					state.isLoading = false;
+					state.success = true;
 					state.orderRequestStatus = false;
 					state.orders.push(action.payload.order);
 					state.lastOrder = action.payload.order;
@@ -97,6 +106,7 @@ const ordersSlice = createSlice({
 			)
 			.addCase(fetchOrderBurger.rejected, (state, action) => {
 				state.isLoading = false;
+				state.success = false;
 				state.orderRequestStatus = false;
 				state.error = action.error.message;
 				console.log('error order burger');
@@ -104,6 +114,7 @@ const ordersSlice = createSlice({
 			// обработка fetchOrderByNumber
 			.addCase(fetchOrderByNumber.pending, (state) => {
 				state.isLoading = true;
+				state.success = false;
 				state.error = '';
 				console.log('loading order by number');
 			})
@@ -111,6 +122,7 @@ const ordersSlice = createSlice({
 				fetchOrderByNumber.fulfilled,
 				(state, action: PayloadAction<TOrderByNumberPayload>) => {
 					state.isLoading = false;
+					state.success = true;
 					state.orderByNumber = action.payload;
 					state.error = '';
 					console.log('success loading order by number');
@@ -118,6 +130,7 @@ const ordersSlice = createSlice({
 			)
 			.addCase(fetchOrderByNumber.rejected, (state, action) => {
 				state.isLoading = false;
+				state.success = false;
 				state.error = action.error.message;
 				console.log('error loading order by number');
 			});

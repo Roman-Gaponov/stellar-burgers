@@ -5,12 +5,14 @@ import { TIngredient } from '@utils-types';
 interface IngredientsState {
 	ingredients: TIngredient[];
 	isLoading: boolean;
+	success: boolean;
 	error: string | undefined;
 }
 
-const initialState: IngredientsState = {
+export const initialState: IngredientsState = {
 	ingredients: [],
 	isLoading: false,
+	success: false,
 	error: '',
 };
 
@@ -34,6 +36,7 @@ const ingredientsSlice = createSlice({
 				fetchIngredients.fulfilled,
 				(state, action: PayloadAction<TIngredient[]>) => {
 					state.isLoading = false;
+					state.success = true;
 					state.ingredients = action.payload;
 					state.error = '';
 					console.log('success loading ingredients');
@@ -41,6 +44,7 @@ const ingredientsSlice = createSlice({
 			)
 			.addCase(fetchIngredients.rejected, (state, action) => {
 				state.isLoading = false;
+				state.success = false;
 				state.error = action.error.message;
 				console.log('error loading ingredients');
 			});

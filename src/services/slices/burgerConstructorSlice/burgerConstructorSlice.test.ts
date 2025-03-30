@@ -7,7 +7,6 @@ import {
 	reorderConstructor,
 } from './burgerConstructorSlice';
 import burgerConstructorSliceReducer from './burgerConstructorSlice';
-import { ingredients } from '../../../../../../.templates_for_sprints/спринты по React/sprint_11-12/t1/src/services/slices/ingredients/mockIngredientsData';
 
 const ingredientsForTest: TIngredient[] = [
 	{
