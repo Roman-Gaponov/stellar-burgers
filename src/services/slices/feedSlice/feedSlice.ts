@@ -51,7 +51,7 @@ const feedSlice = createSlice({
 			)
 			.addCase(fetchFeed.rejected, (state, action) => {
 				state.isLoading = false;
-        state.success = false;
+				state.success = false;
 				state.error = action.error.message;
 				console.log('error loading feed');
 			});
