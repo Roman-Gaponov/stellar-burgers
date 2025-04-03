@@ -13,8 +13,8 @@
     "prettier/prettier": [
       "warn",
       {
-        "usePrettierrc": true
-      }
+        "usePrettierrc": true,
+      },
     ],
     "react/react-in-jsx-scope": "off",
     "comma-dangle": "off",
